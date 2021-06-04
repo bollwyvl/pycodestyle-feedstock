@@ -1,37 +1,34 @@
-{% set name = "pycodestyle" %}
 {% set version = "2.7.0" %}
-{% set compress_type = "tar.gz" %}
-{% set hash_val = "c389c1d06bf7904078ca03399a4816f974a1d590090fecea0c63ec26ebaf1cef" %}
-{% set build_num = "0" %}
 
 package:
-  name: {{ name|lower }}
+  name: pycodestyle
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.{{ compress_type }}
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.{{ compress_type }}
-  sha256: {{ hash_val }}
+  url: https://pypi.io/packages/source/p/pycodestyle/pycodestyle-{{ version }}.tar.gz
+  sha256: c389c1d06bf7904078ca03399a4816f974a1d590090fecea0c63ec26ebaf1cef
 
 build:
   noarch: python
+  number: 1
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
   entry_points:
     - pycodestyle = pycodestyle:_main
-
-  number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   host:
     - pip
-    - python =2.7|>=3.5
-    - setuptools
-
+    - python >=3.6
   run:
-    - python =2.7|>=3.5
+    - python >=3.6
 
 test:
+  requires:
+    - pip
+  imports:
+    - pycodestyle
   commands:
+    - pip check
     - pycodestyle --help
     - pycodestyle --version
 
@@ -51,3 +48,4 @@ extra:
     - sigmavirus24
     - dopplershift
     - ocefpaf
+    - bollwyvl
